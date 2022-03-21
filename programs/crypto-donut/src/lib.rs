@@ -19,14 +19,13 @@ pub mod crypto_donut {
         let base_account = &mut ctx.accounts.base_account;
         base_account.donators.push(ctx.accounts.user.key());
 
-        let instruction = transfer(ctx.accounts.user.key, &base_account.key(), amount);
+        let user = &mut ctx.accounts.user;
+
+        let instruction = transfer(&user.key, &base_account.key(), amount);
 
         invoke(
             &instruction,
-            &[
-                ctx.accounts.user.to_account_info(),
-                base_account.to_account_info(),
-            ],
+            &[user.to_account_info(), base_account.to_account_info()],
         )
         .unwrap();
 
@@ -71,4 +70,5 @@ pub struct Donation<'info> {
     #[account(mut)]
     pub base_account: Account<'info, BaseAccount>,
     pub user: Signer<'info>,
+    pub system_program: Program<'info, System>,
 }

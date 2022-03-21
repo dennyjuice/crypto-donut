@@ -9,10 +9,9 @@ describe("crypto-donut", () => {
   anchor.setProvider(provider);
 
   const program = anchor.workspace.CryptoDonut as Program<CryptoDonut>;
-  let baseAccount: anchor.web3.Keypair;
+  const baseAccount = anchor.web3.Keypair.generate();
 
   it("Should create account", async () => {
-      baseAccount = anchor.web3.Keypair.generate();
       console.log("p", baseAccount.publicKey);
 
       const tx = await program.rpc.initialize({
@@ -45,6 +44,7 @@ describe("crypto-donut", () => {
           accounts: {
               baseAccount: baseAccount.publicKey,
               user: donator.publicKey,
+              systemProgram: anchor.web3.SystemProgram.programId,
           },
           signers: [donator],
         });
