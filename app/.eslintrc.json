@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "eslint-config-prettier",
+    "prettier",
+    "plugin:import/recommended"
+  ],
+  "plugins": ["react"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {"project": "./tsconfig.json"},
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "curly": ["error"],
+    "max-depth": ["warn", 4],
+    "id-length": ["warn", { "exceptions": ["i", "j"], "min": 2 }],
+    "no-lonely-if": ["error"],
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
+    "no-restricted-syntax": "off",
+    "class-methods-use-this": "off",
+    "jsx-a11y/href-no-hash": ["off"],
+    "jsx-a11y/anchor-is-valid": ["off"],
+    "react/prop-types": "off",
+    "react/state-in-constructor": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
+    "react/static-property-placement": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": ["error", { "props": false }]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
