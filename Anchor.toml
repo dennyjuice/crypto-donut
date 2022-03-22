@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.localnet]
-crypto_donut = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+crypto_donut = "3WLaHbMg2syxjgKcv5UPT5Gtnig4mg1KzAYinSP6tzxN"
 
 [registry]
 url = "https://anchor.projectserum.com"

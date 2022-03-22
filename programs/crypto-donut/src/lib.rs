@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("3WLaHbMg2syxjgKcv5UPT5Gtnig4mg1KzAYinSP6tzxN");
 
 #[program]
 pub mod crypto_donut {
@@ -17,14 +17,24 @@ pub mod crypto_donut {
 
     pub fn send_donation(ctx: Context<Donation>, amount: u64) -> ProgramResult {
         let base_account = &mut ctx.accounts.base_account;
-        base_account.donators.push(ctx.accounts.user.key());
+        let user = &ctx.accounts.user;
 
-        let user = &mut ctx.accounts.user;
-
-        let instruction = transfer(&user.key, &base_account.key(), amount);
+        match base_account
+            .donators
+            .iter_mut()
+            .find(|item| item.user == user.key())
+        {
+            Some(item_found) => {
+                item_found.amount += amount;
+            }
+            None => base_account.donators.push(Donators {
+                user: user.key(),
+                amount,
+            }),
+        }
 
         invoke(
-            &instruction,
+            &transfer(&user.key(), &base_account.key(), amount),
             &[user.to_account_info(), base_account.to_account_info()],
         )
         .unwrap();
@@ -32,26 +42,19 @@ pub mod crypto_donut {
         Ok(())
     }
 
-    // pub fn withdraw(ctx: Context<Donation>) -> ProgramResult {
-    //     let instruction = transfer(
-    //         &ctx.accounts.base_account.key(),
-    //         &ctx.accounts.user.owner,
-    //         ctx.accounts.base_account.to_account_info().lamports(),
-    //     );
-    //
-    //     invoke(
-    //         &instruction,
-    //         &[
-    //             ctx.accounts.base_account.to_account_info(),
-    //             ctx.accounts.user.to_account_info(),
-    //         ],
-    //     )
-    // }
+    pub fn withdraw(ctx: Context<Withdraw>) -> ProgramResult {
+        let base_account = &ctx.accounts.base_account.to_account_info();
+        let owner = &ctx.accounts.owner;
+
+        **owner.try_borrow_mut_lamports()? += base_account.lamports();
+        **base_account.try_borrow_mut_lamports()? = 0;
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = user, space = 64 + 1024)]
+    #[account(init, payer = user, space = 32 + 8)]
     pub base_account: Account<'info, BaseAccount>,
 
     #[account(mut)]
@@ -61,7 +64,7 @@ pub struct Initialize<'info> {
 
 #[account]
 pub struct BaseAccount {
-    pub donators: Vec<Pubkey>,
+    pub donators: Vec<Donators>,
     pub owner: Pubkey,
 }
 
@@ -69,6 +72,21 @@ pub struct BaseAccount {
 pub struct Donation<'info> {
     #[account(mut)]
     pub base_account: Account<'info, BaseAccount>,
+    #[account(mut)]
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct Withdraw<'info> {
+    #[account(mut, signer)]
+    pub base_account: Account<'info, BaseAccount>,
+    #[account(address = base_account.owner)]
+    pub owner: Signer<'info>,
+}
+
+#[derive(Clone, Debug, AnchorSerialize, AnchorDeserialize)]
+pub struct Donators {
+    user: Pubkey,
+    amount: u64,
 }
