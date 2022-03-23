@@ -11,11 +11,15 @@ pub mod crypto_donut {
 
     pub fn initialize(ctx: Context<Initialize>) -> ProgramResult {
         let base_account = &mut ctx.accounts.base_account;
-        base_account.owner = ctx.accounts.user.to_account_info().key();
+        base_account.owner = "4GecpK65jdYoguTNF6tND3ERLKVXKmAUaa2qTAvaeu98"
+            .parse()
+            .unwrap();
         Ok(())
     }
 
-    pub fn send_donation(ctx: Context<Donation>, amount: u64) -> ProgramResult {
+    pub fn send_donation(ctx: Context<Donation>, amount: u64) -> Result<()> {
+        require!(amount > 0, DonationError::ZeroAmountForbidden);
+
         let base_account = &mut ctx.accounts.base_account;
         let user = &ctx.accounts.user;
 
@@ -54,7 +58,7 @@ pub mod crypto_donut {
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = user, space = 32 + 8)]
+    #[account(init, payer = user, space = 64 + 1024)]
     pub base_account: Account<'info, BaseAccount>,
 
     #[account(mut)]
@@ -72,6 +76,7 @@ pub struct BaseAccount {
 pub struct Donation<'info> {
     #[account(mut)]
     pub base_account: Account<'info, BaseAccount>,
+
     #[account(mut)]
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -81,6 +86,7 @@ pub struct Donation<'info> {
 pub struct Withdraw<'info> {
     #[account(mut, signer)]
     pub base_account: Account<'info, BaseAccount>,
+
     #[account(address = base_account.owner)]
     pub owner: Signer<'info>,
 }
@@ -89,4 +95,9 @@ pub struct Withdraw<'info> {
 pub struct Donators {
     user: Pubkey,
     amount: u64,
+}
+
+#[error_code]
+pub enum DonationError {
+    ZeroAmountForbidden,
 }

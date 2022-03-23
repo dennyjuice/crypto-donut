@@ -1,0 +1,35 @@
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.logo {
+    width: 100px;
+}
+
+.balance {
+    text-align: right;
+}
+
+.balance span {
+    display: block;
+}
+
+.balance .amount {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+.balance .solCoin {
+    width: 20px;
+}

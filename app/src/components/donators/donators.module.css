@@ -1,0 +1,23 @@
+.donators {
+    width: 100%;
+}
+
+.row {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.user {
+    max-width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.amount {
+    font-weight: 700;
+}

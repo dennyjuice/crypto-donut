@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@300;700&display=swap');
+
+body {
+    font-family: 'Red Hat Mono', monospace;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(153,69,255);
+    background: linear-gradient(48deg, rgba(153,69,255,1) 0%, rgba(20,241,149,1) 100%);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    height: 700px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px -2px rgba(34, 60, 80, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+button {
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    height: 60px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button.primary {
+    background-color: #14F195;
+    margin: auto 0;
+}
+
+button:hover {
+    filter: grayscale(.5);
+}
+
+.content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.donatorsButton {
+    margin-top: auto;
+}
+
+@media (max-width: 480px) {
+    body{
+        font-size: 14px;
+    }
+
+    .container {
+        max-width: none;
+        height: 100%;
+        padding: 15px;
+    }
+}

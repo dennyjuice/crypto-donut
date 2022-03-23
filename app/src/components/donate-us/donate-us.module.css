@@ -1,0 +1,44 @@
+h1 {
+    text-transform: uppercase;
+    font-size: 3.5em;
+}
+
+button.primary {
+    background-color: #14F195;
+}
+
+label[for="amountInput"] {
+    font-size: 1.2em;
+    align-self: baseline;
+    margin-bottom: 5px;
+}
+
+input {
+    border: none;
+    appearance: none;
+}
+
+input[type="number"] {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.error {
+    font-size: 0.8em;
+    color: tomato;
+    margin-top: -15px;
+    margin-bottom: 5px;
+}
