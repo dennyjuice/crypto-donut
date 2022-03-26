@@ -4,7 +4,7 @@ import { SolletExtensionWalletName } from "@solana/wallet-adapter-sollet";
 import { useProgram } from "../../hooks/use-program";
 import { useAdmin } from "../../hooks/use-admin";
 import styles from "./main.module.css";
-import Balance from "../balance/balance";
+import { Balance } from "../balance/balance";
 import Donators from "../donators/donators";
 import DonateUs from "../donate-us/donate-us";
 import Admin from "../admin/admin";
@@ -26,9 +26,9 @@ export const Main = () => {
     wallet.select(SolletExtensionWalletName);
   }, [wallet]);
 
-  const connectWallet = useCallback(async () => {
+  const connectWallet = useCallback(() => {
     try {
-      await wallet.connect();
+      wallet.connect();
     } catch (err) {
       console.log("Wallet connecting error: ", err);
     }

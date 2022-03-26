@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { baseAccount } from "../constants";
 import { useProgramConnection } from "./use-program-connection";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -21,10 +21,6 @@ export const useProgram = () => {
       });
     }
   }, [provider, wallet.connected]);
-
-  useEffect(() => {
-    updateBalance();
-  }, [wallet.connected, provider, updateBalance]);
 
   const getDonatorsList = async () => {
     try {
